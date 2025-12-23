@@ -1,0 +1,8 @@
+public/templates_c/
+.vscode/
+Thumbs.db
+desktop.ini
+*.log
+*.tmp
+.env
+.env.*

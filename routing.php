@@ -13,4 +13,6 @@ Utils::addRoute('termsView', 'TermsCtrl');
 Utils::addRoute('reservationView', 'ReservationCtrl');
 Utils::addRoute('reservationsView', 'ReservationCtrl');
 
+Utils::addRoute('StaffDayView', 'StaffCtrl');
+Utils::addRoute('AdminView', 'AdminCtrl');
 

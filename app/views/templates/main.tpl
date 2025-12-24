@@ -1,4 +1,5 @@
 <!DOCTYPE HTML>
+<html lang="pl">
 <head>
     <title>{$page_title|default:"FishPass — rezerwacja wkładek"}</title>
     <meta charset="utf-8" />
@@ -11,7 +12,15 @@
 <div id="wrapper">
 
     <div id="main">
+
+        {* HERO (np. strona główna) *}
         {block name=hero}{/block}
+
+        {* ZWYKŁA TREŚĆ (Terminy, Logowanie, Rejestracja itd.) *}
+        <div class="inner">
+            {block name=content}{/block}
+        </div>
+
     </div>
 
     <div id="sidebar">
@@ -25,13 +34,13 @@
                     <li><a href="{$conf->app_url}/index.php">Strona główna</a></li>
                     <li><a href="{$conf->action_root}termsView">Terminy</a></li>
 
-                    {if isset($user)}
+                {*    {if isset($user)} *}
                         <li><a href="{$conf->action_root}reservationsView">Moje rezerwacje</a></li>
                         <li><a href="{$conf->action_root}logout">Wyloguj</a></li>
-                    {else}
+                {*   {else}   *}
                         <li><a href="{$conf->action_root}loginView">Logowanie</a></li>
                         <li><a href="{$conf->action_root}registerView">Rejestracja</a></li>
-                    {/if}
+                {*    {/if} *}
 
                     {if isset($roles) && (in_array('pracownik',$roles) || in_array('admin',$roles))}
                         <li>

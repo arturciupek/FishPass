@@ -9,4 +9,8 @@ App::getRouter()->setLoginRoute('loginView'); #action to forward if no permissio
 Utils::addRoute('homeView', 'HomeCtrl');
 Utils::addRoute('loginView', 'AuthCtrl');
 Utils::addRoute('registerView', 'AuthCtrl');
+Utils::addRoute('termsView', 'TermsCtrl');
+Utils::addRoute('reservationView', 'ReservationCtrl');
+Utils::addRoute('reservationsView', 'ReservationCtrl');
+
 

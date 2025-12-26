@@ -13,7 +13,7 @@
     <form method="post" action="{$conf->action_root}login">
       <div class="row gtr-uniform">
         <div class="col-7">
-          <input type="text" name="login" placeholder="Email / login" required />
+          <input type="text" name="email" placeholder="Email / login" required />
         </div>
         <div class="col-7">
           <input type="password" name="pass" placeholder="Hasło" required />

@@ -16,3 +16,8 @@ Utils::addRoute('reservationsView', 'ReservationCtrl');
 Utils::addRoute('StaffDayView', 'StaffCtrl');
 Utils::addRoute('AdminView', 'AdminCtrl');
 
+Utils::addRoute('login', 'AuthCtrl');
+Utils::addRoute('register', 'AuthCtrl');
+Utils::addRoute('logout', 'AuthCtrl');
+
+

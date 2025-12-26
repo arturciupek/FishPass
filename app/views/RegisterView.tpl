@@ -16,7 +16,7 @@
           <input type="text" name="email" placeholder="Email" required />
         </div>
         <div class="col-7">
-          <input type="password" name="pass1" placeholder="Hasło" required />
+          <input type="password" name="pass" placeholder="Hasło" required />
         </div>
         <div class="col-7">
           <input type="password" name="pass2" placeholder="Powtórz hasło" required />

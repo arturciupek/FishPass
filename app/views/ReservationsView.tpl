@@ -9,26 +9,30 @@
   <table>
     <thead>
       <tr>
-        <th>Kod</th>
+        <th>ID</th>
         <th>Data</th>
+        <th>Stanowisko</th>
         <th>Wkładka</th>
         <th>Status</th>
         <th>Akcja</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>FP-8K2A1</td>
-        <td>2025-12-06</td>
-        <td>Dzienna</td>
-        <td>Aktywna</td>
-        <td>
-          <form method="post" action="{$conf->action_root}reservationCancel" style="margin:0;">
-            <input type="hidden" name="code" value="FP-8K2A1" />
-            <input type="submit" value="Anuluj" class="button cancel" />
-          </form>
-        </td>
-      </tr>
+      {foreach $rezerwacje as $r}
+        <tr>
+          <td>{$r.id_rezerwacji}</td>
+          <td>{$r.data_rezerwacji}</td>
+          <td>{$r.stanowisko}</td>
+          <td>{$r.rodzaj_wkladki}</td>
+          <td>{$r.status}</td>
+          <td>
+            <form method="post" action="{$conf->action_root}reservationCancel" style="margin:0;">
+              <input type="hidden" name="id_rezerwacji" value="{$r.id_rezerwacji}" />
+              <input type="submit" value="Anuluj" class="button" />
+            </form>
+          </td>
+        </tr>
+      {/foreach}
     </tbody>
   </table>
 </div>

@@ -10,8 +10,11 @@ Utils::addRoute('homeView', 'HomeCtrl');
 Utils::addRoute('loginView', 'AuthCtrl');
 Utils::addRoute('registerView', 'AuthCtrl');
 Utils::addRoute('termsView', 'TermsCtrl');
+
 Utils::addRoute('reservationView', 'ReservationCtrl');
 Utils::addRoute('reservationsView', 'ReservationCtrl');
+Utils::addRoute('addReservation', 'ReservationCtrl');
+Utils::addRoute('reservationCancel', 'ReservationCtrl');
 
 Utils::addRoute('StaffDayView', 'StaffCtrl');
 Utils::addRoute('AdminView', 'AdminCtrl');

@@ -6,31 +6,32 @@
   <p>Wybierz dane rezerwacji.</p>
 </header>
 
-<form method="post" action="{$conf->action_root}reservationSave">
+<form method="post" action="{$conf->action_root}addReservation">
   <div class="row gtr-uniform">
 
     <div class="col-6 col-12-xsmall">
       <label>Data</label>
-      <input type="date" name="date" value="{$date|default:''}" required />
+      <input type="date" name="data_rezerwacji" value="{$data|default:''}" required />
     </div>
 
     <div class="col-6 col-12-xsmall">
-      <label>Rodzaj wkładki</label>
-      <select name="permit_id" required>
+      <label>Stanowisko</label>
+      <select name="stanowisko_id_stanowiska" required>
         <option value="">— wybierz —</option>
-        <option value="1">Dzienna</option>
-        <option value="2">Nocna</option>
+        {foreach $stanowiska as $s}
+          <option value="{$s.id_stanowiska}">{$s.kod}</option>
+        {/foreach}
       </select>
     </div>
 
     <div class="col-6 col-12-xsmall">
-      <label>Liczba wkładek</label>
-      <input type="number" name="qty" min="1" max="5" value="1" required />
-    </div>
-
-    <div class="col-6 col-12-xsmall">
-      <label>Kontakt</label>
-      <input type="text" name="contact" placeholder="Email lub telefon" required />
+      <label>Rodzaj wkładki</label>
+      <select name="rodzaj_wkladki_id_rodzaju_wkladki" required>
+        <option value="">— wybierz —</option>
+        {foreach $wkladki as $w}
+          <option value="{$w.id_rodzaju_wkladki}">{$w.nazwa} ({$w.cena} zł)</option>
+        {/foreach}
+      </select>
     </div>
 
     <div class="col-12">

@@ -13,10 +13,10 @@
 
     <div id="main">
 
-        {* HERO (np. strona główna) *}
+        {* HERO *}
         {block name=hero}{/block}
 
-        {* ZWYKŁA TREŚĆ (Terminy, Logowanie, Rejestracja itd.) *}
+        {* ZWYKŁA TREŚĆ *}
         <div class="inner">
             {block name=content}{/block}
         </div>

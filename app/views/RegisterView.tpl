@@ -10,6 +10,14 @@
       <h1>Rejestracja</h1>
     </header>
 
+  {if isset($msgs) && $msgs->isMessage()}
+    {foreach $msgs->getMessages() as $m}
+      <div class="hero-msg {if $m->isError()}error{/if}{if $m->isInfo()}info{/if}">
+        {$m->text}
+      </div>
+      {/foreach}
+    {/if}
+
     <form method="post" action="{$conf->action_root}register">
       <div class="row gtr-uniform">
         <div class="col-7">

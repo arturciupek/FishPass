@@ -27,17 +27,23 @@ class AuthCtrl {
             return $this->action_loginView();
         }
 
-        $user = App::getDB()->get("users", ["id","email","password_hash","role","created_at"], ["email" => $email]);
+        $user = App::getDB()->get("uzytkownik", ["id_uzytkownika","email","haslo","utworzono"], ["email" => $email]);
 
-        if (!$user || !password_verify($pass, $user["password_hash"])) {
+        if (!$user || !password_verify($pass, $user["haslo"])) {
             Utils::addErrorMessage("Błędny email lub hasło.");
             return $this->action_loginView();
         }
 
-        $role = $user["role"] ?? "user";
+        $role = App::getDB()->get("uzytkownik_rola", [
+            "[>]rola" => ["rola_id_roli" => "id_roli"]
+        ], "rola.nazwa", [
+            "uzytkownik_rola.uzytkownik_id_uzytkownika" => $user["id_uzytkownika"]
+        ]);
+
+        if (!$role) $role = "user";
 
         RoleUtils::addRole($role);
-        SessionUtils::store("user", ["id"=>$user["id"], "email"=>$user["email"], "role"=>$role]);
+        SessionUtils::store("user", ["id"=>$user["id_uzytkownika"], "email"=>$user["email"], "role"=>$role]);
 
         if ($role === "admin") {
             App::getRouter()->redirectTo('AdminView');
@@ -63,12 +69,27 @@ class AuthCtrl {
             return $this->action_registerView();
         }
 
-        if (App::getDB()->has("users", ["email" => $email])) {
+        if (App::getDB()->has("uzytkownik", ["email" => $email])) {
             Utils::addErrorMessage("Taki email już istnieje.");
             return $this->action_registerView();
         }
 
-        App::getDB()->insert("users", ["email" => $email, "password_hash" => password_hash($pass1, PASSWORD_DEFAULT), "role" => "user"]);
+        $roleId = App::getDB()->get("rola", "id_roli", ["nazwa" => "user"]);
+
+        App::getDB()->insert("uzytkownik", [
+            "email" => $email,
+            "haslo" => password_hash($pass1, PASSWORD_DEFAULT),
+            "utworzono" => date('Y-m-d')
+        ]);
+
+        $userId = App::getDB()->id();
+
+        App::getDB()->insert("uzytkownik_rola", [
+            "uzytkownik_id_uzytkownika" => $userId,
+            "rola_id_roli" => $roleId,
+            "nadano" => date('Y-m-d'),
+            "odebrano" => null
+        ]);
 
         Utils::addInfoMessage("Konto utworzone. Zaloguj się.");
         SessionUtils::storeMessages();

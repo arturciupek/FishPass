@@ -34,13 +34,20 @@ class AuthCtrl {
             return $this->action_loginView();
         }
 
-        $role = App::getDB()->get("uzytkownik_rola", [
+        $roles = App::getDB()->select("uzytkownik_rola", [
             "[>]rola" => ["rola_id_roli" => "id_roli"]
         ], "rola.nazwa", [
-            "uzytkownik_rola.uzytkownik_id_uzytkownika" => $user["id_uzytkownika"]
+            "uzytkownik_rola.uzytkownik_id_uzytkownika" => $user["id_uzytkownika"],
+            "uzytkownik_rola.odebrano" => null
         ]);
 
-        if (!$role) $role = "user";
+        if (in_array("admin", $roles)) {
+            $role = "admin";
+        } elseif (in_array("worker", $roles)) {
+            $role = "worker";
+        } else {
+            $role = "user";
+        }
 
         RoleUtils::addRole($role);
         SessionUtils::store("user", ["id"=>$user["id_uzytkownika"], "email"=>$user["email"], "role"=>$role]);

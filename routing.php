@@ -6,21 +6,28 @@ use core\Utils;
 App::getRouter()->setDefaultRoute('homeView'); #default action
 App::getRouter()->setLoginRoute('loginView'); #action to forward if no permissions
 
+// Gość
 Utils::addRoute('homeView', 'HomeCtrl');
 Utils::addRoute('loginView', 'AuthCtrl');
 Utils::addRoute('registerView', 'AuthCtrl');
 Utils::addRoute('termsView', 'TermsCtrl');
+Utils::addRoute('register', 'AuthCtrl');
 
+//User
 Utils::addRoute('reservationView', 'ReservationCtrl');
 Utils::addRoute('reservationsView', 'ReservationCtrl');
 Utils::addRoute('addReservation', 'ReservationCtrl');
 Utils::addRoute('reservationCancel', 'ReservationCtrl');
+Utils::addRoute('login', 'AuthCtrl');
+Utils::addRoute('logout', 'AuthCtrl');
 
+//Pracownik
 Utils::addRoute('StaffDayView', 'StaffCtrl');
+Utils::addRoute('staffChangeStatus', 'StaffCtrl');
+
+//Admin
 Utils::addRoute('AdminView', 'AdminCtrl');
 
-Utils::addRoute('login', 'AuthCtrl');
-Utils::addRoute('register', 'AuthCtrl');
-Utils::addRoute('logout', 'AuthCtrl');
+
 
 

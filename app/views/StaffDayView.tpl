@@ -5,63 +5,47 @@
   <h1>Rezerwacje na dzień</h1>
 </header>
 
-<form method="get" action="{$conf->action_root}dayView">
-  <div class="row gtr-uniform">
-    <div class="col-6 col-12-xsmall">
-      <label for="date">Data</label>
-      <input type="date" id="date" name="date" value="2026-01-10" />
-    </div>
-    <div class="col-6 col-12-xsmall" style="display:flex; align-items:flex-end;">
-      <ul class="actions">
-        <li><input type="submit" value="Pokaż" class="button primary" /></li>
-      </ul>
-    </div>
-  </div>
+<form method="get" action="{$conf->action_root}StaffDayView">
+  <input type="date" name="data" value="{$data}" />
+  <input type="submit" value="Pokaż" class="button" />
 </form>
-
-<hr class="major" />
 
 <div class="table-wrapper">
   <table>
     <thead>
       <tr>
-        <th>Kod</th>
-        <th>Klient</th>
+        <th>ID</th>
         <th>Data</th>
+        <th>Stanowisko</th>
         <th>Wkładka</th>
         <th>Status</th>
-        <th>Akcje</th>
+        <th>Zmień</th>
       </tr>
     </thead>
     <tbody>
+      {foreach $rezerwacje as $r}
       <tr>
-        <td>FP-8K2A1</td>
-        <td>jan.kowalski@email.pl</td>
-        <td>2026-01-10</td>
-        <td>Dzienna</td>
-        <td>NOWA</td>
+        <td>{$r.id_rezerwacji}</td>
+        <td>{$r.data_rezerwacji}</td>
+        <td>{$r.stanowisko}</td>
+        <td>{$r.rodzaj_wkladki}</td>
+        <td>{$r.status}</td>
         <td>
-          <ul class="actions small">
-            <li><a href="#" class="button small primary">Potwierdź</a></li>
-            <li><a href="#" class="button small">Odrzuć</a></li>
-          </ul>
+          <form method="post" action="{$conf->action_root}staffChangeStatus" style="margin:0;">
+            <input type="hidden" name="id_rezerwacji" value="{$r.id_rezerwacji}" />
+            <input type="hidden" name="data" value="{$data}" />
+            <select name="status">
+              <option value="NOWA" {if $r.status=="NOWA"}selected{/if}>NOWA</option>
+              <option value="POTWIERDZONA" {if $r.status=="POTWIERDZONA"}selected{/if}>POTWIERDZONA</option>
+              <option value="ANULOWANA" {if $r.status=="ANULOWANA"}selected{/if}>ANULOWANA</option>
+              <option value="ZREALIZOWANA" {if $r.status=="ZREALIZOWANA"}selected{/if}>ZREALIZOWANA</option>
+            </select>
+            <input type="submit" value="Zapisz" class="button small" />
+          </form>
         </td>
       </tr>
-
-      <tr>
-        <td>FP-2Z9Q0</td>
-        <td>anna.nowak@email.pl</td>
-        <td>2026-01-10</td>
-        <td>Nocna</td>
-        <td>POTWIERDZONA</td>
-        <td>
-          <ul class="actions small">
-            <li><a href="#" class="button small">Odrzuć</a></li>
-          </ul>
-        </td>
-      </tr>
+      {/foreach}
     </tbody>
   </table>
 </div>
-
 {/block}

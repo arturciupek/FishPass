@@ -15,11 +15,19 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>2025-12-06</td>
-        <td>7</td>
-        <td><a class="button primary small" href="{$conf->action_root}reservationView">Rezerwuj</a></td>
-      </tr>
+      {foreach $terminy as $t}
+        <tr>
+          <td>{$t.data}</td>
+          <td>{$t.wolne}</td>
+          <td>
+            {if $t.wolne > 0}
+              <a class="button primary small" href="{$conf->action_root}reservationView?data={$t.data}">Rezerwuj</a>
+            {else}
+              —
+            {/if}
+          </td>
+        </tr>
+      {/foreach}
     </tbody>
   </table>
 </div>

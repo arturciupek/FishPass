@@ -50,6 +50,17 @@ class ReservationCtrl {
             return;
         }
 
+        $exists = App::getDB()->has("rezerwacja", [
+            "data_rezerwacji" => $data,
+            "stanowisko_id_stanowiska" => (int)$stanowiskoId,
+            "status[!]" => "ANULOWANA"
+        ]);
+
+        if ($exists) {
+            Utils::addErrorMessage("To stanowisko jest już zajęte w tym terminie. Wybierz inne.");
+            return $this->action_reservationView();
+        }
+
         App::getDB()->insert("rezerwacja", [
             "data_rezerwacji" => $data,
             "status" => "NOWA",

@@ -25,8 +25,12 @@ Utils::addRoute('logout', 'AuthCtrl');
 Utils::addRoute('StaffDayView', 'StaffCtrl');
 Utils::addRoute('staffChangeStatus', 'StaffCtrl');
 
-//Admin
-Utils::addRoute('AdminView', 'AdminCtrl');
+// Admin
+Utils::addRoute('AdminView', 'AdminCtrl');        
+Utils::addRoute('adminUsersView', 'AdminCtrl');   
+Utils::addRoute('adminChangeRole', 'AdminCtrl');  
+
+
 
 
 

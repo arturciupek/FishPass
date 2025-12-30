@@ -2410,6 +2410,35 @@ header.major *::after{
   display: block;
 }
 
+.features > article{
+  width: 100% !important;
+  padding-bottom: 2.2em !important;
+}
+
+.features > article:nth-child(2){
+  margin-top: -3em !important;
+  padding-left: 1.5em !important; 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -2394,6 +2394,35 @@ header.major *::after{
   background-image: none !important;
 }
 
+#sidebar #footer .footer-logo{
+  height: 185px;             
+  display: flex;
+  justify-content: center;    
+  align-items: center;        
+  padding: 0;
+}
+
+#sidebar #footer .footer-logo img{
+  width: 100%;
+  max-width: 300px;           
+  height: auto;               
+  object-fit: contain;  
+  display: block;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -79,7 +79,9 @@
 
             <footer id="footer">
                 {block name=footer}
-                    <p>„Zarezerwuj miejsce na ciszę i ryby!”</p>
+                    <div class="footer-logo">
+                        <img class="sidebar-logo" src="{$conf->app_url}/images/logo1.png" alt="FishPass">
+                    </div>
                 {/block}
             </footer>
 

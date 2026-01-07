@@ -1,4 +1,7 @@
-<?php namespace core;
+<?php 
+
+namespace core;
+
 class Config extends \ArrayObject{
 	public $debug=false;
 	public $clean_urls=false;

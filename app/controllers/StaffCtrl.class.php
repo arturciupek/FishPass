@@ -35,8 +35,8 @@ class StaffCtrl {
 
     public function action_staffChangeStatus() {
 
-        $id = $_POST['id_rezerwacji'] ?? null;
-        $status = $_POST['status'] ?? null;
+        $id = $_POST['id_rezerwacji'];
+        $status = $_POST['status'];
         $data = $_POST['data'] ?? date('Y-m-d');
 
         if (!$id || !$status) {
@@ -49,7 +49,7 @@ class StaffCtrl {
         App::getDB()->update("rezerwacja", [
             "status" => $status
         ], [
-            "id_rezerwacji" => (int)$id
+            "id_rezerwacji" => $id
         ]);
 
         Utils::addInfoMessage("Zmieniono status rezerwacji #$id na $status.");

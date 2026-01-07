@@ -6,49 +6,47 @@ use core\App;
 class TermsCtrl {
 
     public function action_termsView() {
+        
         App::getSmarty()->assign('page_title', 'FishPass — Terminy');
 
-        // od jakiej daty liczyć (domyślnie dziś)
-        $startStr = $_GET['data'] ?? date('Y-m-d');
-        $start = new \DateTime($startStr);
-
-        // ile dni pokazać
+        // wyświetlamy terminy od dzisiaj
+        $start = new \DateTime(); 
         $days = 30;
 
         // pojemność = liczba aktywnych stanowisk
         $stanowiska = App::getDB()->select("stanowisko", ["id_stanowiska"], ["aktywne" => 1]);
-        $capacity = count($stanowiska);
+        $pojemnosc = count($stanowiska);
 
         // pobierz rezerwacje w zakresie (pomijamy anulowane)
-        $end = (clone $start)->modify('+' . ($days - 1) . ' day');
+        $end = clone $start;
+        $end->modify('+29 days');
 
-        $rez = App::getDB()->select("rezerwacja", [
-            "data_rezerwacji",
-            "status"
+        $rezerwacje = App::getDB()->select("rezerwacja", [
+            "data_rezerwacji"
         ], [
             "data_rezerwacji[<>]" => [$start->format('Y-m-d'), $end->format('Y-m-d')],
             "status[!]" => "ANULOWANA"
         ]);
 
-        // zlicz zajęte miejsca per dzień
+        // zliczanie zajętych miejsca w danym dniu
         $zajete = [];
-        foreach ($rez as $r) {
+        foreach ($rezerwacje as $r) {
             $d = $r["data_rezerwacji"];
             if (!isset($zajete[$d])) $zajete[$d] = 0;
             $zajete[$d]++;
         }
 
-        // zbuduj listę terminów
+        // budowanie listy terminów
         $terminy = [];
         $tmp = clone $start;
         for ($i = 0; $i < $days; $i++) {
             $d = $tmp->format('Y-m-d');
-            $used = $zajete[$d] ?? 0;
-            $free = max(0, $capacity - $used);
+            $zarezerwowane = $zajete[$d] ?? 0;
+            $wolneMiejsca = max(0, $pojemnosc - $zarezerwowane);
 
             $terminy[] = [
                 "data" => $d,
-                "wolne" => $free
+                "wolne" => $wolneMiejsca
             ];
 
             $tmp->modify('+1 day');

@@ -5,6 +5,7 @@ namespace core;
 /**
  * Wrapper class for role utility functions
  *
+ * @author Przemysław Kudłacik
  */
 class RoleUtils {
 

@@ -5,8 +5,8 @@ namespace core;
 /**
  * Parameter validation tool
  *
- * @author Przemysław Kudłacik
- */
+ *  @author Przemysław Kudłacik
+*/
 class Validator {
 
     private $message_type = 'error';

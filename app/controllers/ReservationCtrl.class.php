@@ -12,7 +12,7 @@ class ReservationCtrl {
     public function action_reservationView() {
         App::getSmarty()->assign('page_title', 'FishPass — Rezerwacja');
 
-        // lista "produktów" do wyboru
+        // lista rodzaju wkładek
         $wkladki = App::getDB()->select("rodzaj_wkladki",
             ["id_rodzaju_wkladki", "nazwa", "cena"],
             ["aktywna" => 1]
@@ -33,11 +33,11 @@ class ReservationCtrl {
     }
 
     public function action_addReservation() {
-        $v = new Validator();
+        $validator = new Validator();
 
-        $data = $v->validateFromPost('data_rezerwacji', ['required'=>true, 'trim'=>true]);
-        $wkladkaId = $v->validateFromPost('rodzaj_wkladki_id_rodzaju_wkladki', ['required'=>true, 'trim'=>true]);
-        $stanowiskoId = $v->validateFromPost('stanowisko_id_stanowiska', ['required'=>true, 'trim'=>true]);
+        $data = $validator->validateFromPost('data_rezerwacji', ['required'=>true, 'trim'=>true]);
+        $wkladkaId = $validator->validateFromPost('rodzaj_wkladki_id_rodzaju_wkladki', ['required'=>true, 'trim'=>true]);
+        $stanowiskoId = $validator->validateFromPost('stanowisko_id_stanowiska', ['required'=>true, 'trim'=>true]);
 
         if (App::getMessages()->isError()) {
             return $this->action_reservationView();
@@ -132,6 +132,6 @@ class ReservationCtrl {
         Utils::addInfoMessage("Rezerwacja została anulowana.");
         SessionUtils::storeMessages();
         App::getRouter()->redirectTo('reservationsView');
-}
+    }
 
 }

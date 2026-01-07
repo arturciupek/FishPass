@@ -4,6 +4,8 @@ namespace core;
 
 /**
  * Wrapper class for basic utility functions
+ * 
+ * @author Przemysław Kudłacik
  */
 class Utils {
 

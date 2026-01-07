@@ -46,8 +46,8 @@ class AdminCtrl {
 
     public function action_adminChangeRole() {
 
-    $id   = $_POST['id_uzytkownika'] ?? null;
-    $rola = $_POST['rola'] ?? null;
+    $id   = $_POST['id_uzytkownika'];
+    $rola = $_POST['rola'];
 
     if (!$id || !$rola) {
         App::getRouter()->redirectTo('adminUsersView');
@@ -64,7 +64,7 @@ class AdminCtrl {
         "odebrano" => null
     ]);
 
-    // reaktywacja pary jeśli para już kiedyś wystąpiła (zapobieganie duplikatą)
+    // reaktywacja pary jeśli para już kiedyś wystąpiła (zapobieganie duplikatom)
     // insert w przypadku nowej pary
     $existsPair = App::getDB()->has("uzytkownik_rola", [
         "uzytkownik_id_uzytkownika" => $id,

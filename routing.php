@@ -12,23 +12,23 @@ Utils::addRoute('loginView', 'AuthCtrl');
 Utils::addRoute('registerView', 'AuthCtrl');
 Utils::addRoute('termsView', 'TermsCtrl');
 Utils::addRoute('register', 'AuthCtrl');
-
-//User
-Utils::addRoute('reservationView', 'ReservationCtrl');
-Utils::addRoute('reservationsView', 'ReservationCtrl');
-Utils::addRoute('addReservation', 'ReservationCtrl');
-Utils::addRoute('reservationCancel', 'ReservationCtrl');
 Utils::addRoute('login', 'AuthCtrl');
 Utils::addRoute('logout', 'AuthCtrl');
 
+//User
+Utils::addRoute('reservationView', 'ReservationCtrl', ['user','worker','admin']);
+Utils::addRoute('reservationsView', 'ReservationCtrl', ['user','worker','admin']);
+Utils::addRoute('addReservation', 'ReservationCtrl', ['user','worker','admin']);
+Utils::addRoute('reservationCancel', 'ReservationCtrl', ['user','worker','admin']);
+
 //Pracownik
-Utils::addRoute('StaffDayView', 'StaffCtrl');
-Utils::addRoute('staffChangeStatus', 'StaffCtrl');
+Utils::addRoute('StaffDayView', 'StaffCtrl', ['worker','admin']);
+Utils::addRoute('staffChangeStatus', 'StaffCtrl', ['worker','admin']);
 
 // Admin
-Utils::addRoute('AdminView', 'AdminCtrl');        
-Utils::addRoute('adminUsersView', 'AdminCtrl');   
-Utils::addRoute('adminChangeRole', 'AdminCtrl');  
+Utils::addRoute('AdminView', 'AdminCtrl', ['admin']);        
+Utils::addRoute('adminUsersView', 'AdminCtrl', ['admin']);   
+Utils::addRoute('adminChangeRole', 'AdminCtrl', ['admin']);  
 
 
 

@@ -11,7 +11,7 @@ class TermsCtrl {
 
         // wyświetlamy terminy od dzisiaj
         $start = new \DateTime(); 
-        $days = 30;
+        $days = 90;
 
         // pojemność = liczba aktywnych stanowisk
         $stanowiska = App::getDB()->select("stanowisko", ["id_stanowiska"], ["aktywne" => 1]);
@@ -19,7 +19,7 @@ class TermsCtrl {
 
         // pobierz rezerwacje w zakresie (pomijamy anulowane)
         $end = clone $start;
-        $end->modify('+29 days');
+        $end->modify('+' . ($days - 1) . ' days');
 
         $rezerwacje = App::getDB()->select("rezerwacja", [
             "data_rezerwacji"

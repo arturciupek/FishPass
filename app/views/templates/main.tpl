@@ -44,13 +44,16 @@
                     <h2>Menu</h2>
                 </header>
                 <ul>
-                
                     <li><a href="{$conf->app_url}/index.php">Strona główna</a></li>
                     <li><a href="{$conf->action_root}termsView">Terminy</a></li>
-                    <li><a href="{$conf->action_root}reservationsView">Moje rezerwacje</a></li>
-                    <li><a href="{$conf->action_root}loginView">Logowanie</a></li>
-                    <li><a href="{$conf->action_root}registerView">Rejestracja</a></li>
-                    <li><a href="{$conf->action_root}logout">Wyloguj</a></li>
+
+                    {if isset($user)}
+                        <li><a href="{$conf->action_root}reservationsView">Moje rezerwacje</a></li>
+                        <li><a href="{$conf->action_root}logout">Wyloguj</a></li>
+                    {else}
+                        <li><a href="{$conf->action_root}loginView">Logowanie</a></li>
+                        <li><a href="{$conf->action_root}registerView">Rejestracja</a></li>
+                    {/if}
 
                     {if isset($roles) && (in_array('worker',$roles) || in_array('admin',$roles))}
                         <li>

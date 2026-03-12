@@ -7,12 +7,6 @@
 
   <div class="hero__content">
 
-    {if isset($user)}
-      <div style="margin-bottom: 1rem;">
-        Zalogowany: <strong>{$user->email}</strong>
-      </div>
-    {/if}
-
     {if isset($messages) && $messages|@count > 0}
       {foreach $messages as $m}
         <div class="box">

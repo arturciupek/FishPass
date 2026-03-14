@@ -52,7 +52,42 @@ class TermsCtrl {
             $tmp->modify('+1 day');
         }
 
-        App::getSmarty()->assign('terminy', $terminy);
+        // panel wyszukiwania
+        $dataOd = isset($_GET['data_od']) && $_GET['data_od'] != '' ? $_GET['data_od'] : null;
+
+        if ($dataOd) {
+            $terminy = array_filter($terminy, fn($t) => $t['data'] >= $dataOd);
+            $terminy = array_values($terminy); // resetuj klucze
+        }
+
+        $filtr = [
+            'data_od'     => $dataOd
+        ];
+
+        // paginacja
+        $naStrone = 10;
+        $stronaAktualna = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
+        $przesuniecie = ($stronaAktualna - 1) * $naStrone;
+
+        // pobieramy +1 aby wiedzieć czy jest następna strona
+        $terminyStrona = array_slice($terminy, $przesuniecie, $naStrone + 1);
+        $jestNastepna = count($terminyStrona) > $naStrone;
+        if ($jestNastepna) array_pop($terminyStrona);
+
+        $liczbaStron = ceil(count($terminy) / $naStrone);
+
+        $paginacja = [
+            'stronaAktualna'  => $stronaAktualna,
+            'stronaPoprzednia' => $stronaAktualna - 1,
+            'stronaNastepna'  => $stronaAktualna + 1,
+            'liczbaStron'     => $liczbaStron,
+            'jestPoprzednia'  => $stronaAktualna > 1,
+            'jestNastepna'    => $jestNastepna,
+        ];
+
+        App::getSmarty()->assign('terminy', $terminyStrona);
+        App::getSmarty()->assign('paginacja', $paginacja);
+        App::getSmarty()->assign('filtr', $filtr);
         App::getSmarty()->display('TermsView.tpl');
     }
 }

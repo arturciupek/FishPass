@@ -63,7 +63,7 @@ class ReservationCtrl {
 
         App::getDB()->insert("rezerwacja", [
             "data_rezerwacji" => $data,
-            "status" => "NOWA",
+            "status" => "AKTYWNA",
             "oplacona" => 0,
             "utworzono" => date('Y-m-d'),
             "uzytkownik_id_uzytkownika" => $user["id"],
@@ -86,6 +86,37 @@ class ReservationCtrl {
             return;
         }
 
+         // panel wyszukiwania
+        $status = isset($_GET['status']) && $_GET['status'] != '' ? $_GET['status'] : null;
+
+        // paginacja
+        $naStrone = 10;
+        $stronaAktualna = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
+        $przesuniecie = ($stronaAktualna - 1) * $naStrone;
+
+        // budowanie warunków
+        $warunki = ["rezerwacja.uzytkownik_id_uzytkownika" => $user["id"]];
+        
+        if ($status) {
+            $warunki["rezerwacja.status"] = $status;
+        }
+
+        $total = App::getDB()->count("rezerwacja", $warunki);
+
+        $liczbaStron = ceil($total / $naStrone);
+
+        $paginacja = [
+            'stronaAktualna'  => $stronaAktualna,
+            'stronaPoprzednia' => $stronaAktualna - 1,
+            'stronaNastepna'  => $stronaAktualna + 1,
+            'liczbaStron'     => $liczbaStron,
+            'jestPoprzednia'  => $stronaAktualna > 1,
+            'jestNastepna'    => $stronaAktualna < $liczbaStron
+        ];
+
+        $warunki["ORDER"] = ["rezerwacja.data_rezerwacji" => "DESC"];
+        $warunki["LIMIT"] = [$przesuniecie, $naStrone];
+    
         $rezerwacje = App::getDB()->select("rezerwacja", [
             "[>]rodzaj_wkladki" => ["rodzaj_wkladki_id_rodzaju_wkladki" => "id_rodzaju_wkladki"],
             "[>]stanowisko"     => ["stanowisko_id_stanowiska" => "id_stanowiska"]
@@ -97,11 +128,12 @@ class ReservationCtrl {
             "rodzaj_wkladki.nazwa(rodzaj_wkladki)",
             "rodzaj_wkladki.cena(cena)",
             "stanowisko.kod(stanowisko)"
-        ], [
-            "rezerwacja.uzytkownik_id_uzytkownika" => $user["id"],
-            "ORDER" => ["rezerwacja.data_rezerwacji" => "DESC"]
-        ]);
+        ], $warunki);
 
+        $filtr = ['status' => $status];
+
+        App::getSmarty()->assign('filtr', $filtr);
+        App::getSmarty()->assign('paginacja', $paginacja);
         App::getSmarty()->assign('rezerwacje', $rezerwacje);
         App::getSmarty()->display('ReservationsView.tpl');
     }

@@ -48,7 +48,7 @@
                     <li><a href="{$conf->action_root}termsView">Terminy</a></li>
 
                     {if isset($user)}
-                        <li><a href="{$conf->action_root}reservationsView">Moje rezerwacje</a></li>
+                        <li><a href="{$conf->action_root}reservationsList">Moje rezerwacje</a></li>
                         <li><a href="{$conf->action_root}logout">Wyloguj</a></li>
                     {else}
                         <li><a href="{$conf->action_root}loginView">Logowanie</a></li>
@@ -95,6 +95,7 @@
 <script src="{$conf->app_url}/assets/js/breakpoints.min.js"></script>
 <script src="{$conf->app_url}/assets/js/util.js"></script>
 <script src="{$conf->app_url}/assets/js/main.js"></script>
+<script src="{$conf->app_url}/assets/js/functions.js"></script>
 
 </body>
 </html>

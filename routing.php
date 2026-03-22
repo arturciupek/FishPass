@@ -17,9 +17,10 @@ Utils::addRoute('logout', 'AuthCtrl');
 
 //User
 Utils::addRoute('reservationView', 'ReservationCtrl', ['user','worker','admin']);
-Utils::addRoute('reservationsView', 'ReservationCtrl', ['user','worker','admin']);
 Utils::addRoute('addReservation', 'ReservationCtrl', ['user','worker','admin']);
 Utils::addRoute('reservationCancel', 'ReservationCtrl', ['user','worker','admin']);
+Utils::addRoute('reservationsList', 'ReservationCtrl', ['user','worker','admin']);
+Utils::addRoute('reservationsListPart', 'ReservationCtrl', ['user','worker','admin']);
 
 //Pracownik
 Utils::addRoute('StaffDayView', 'StaffCtrl', ['worker','admin']);

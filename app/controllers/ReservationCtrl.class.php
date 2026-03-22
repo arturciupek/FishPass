@@ -9,6 +9,10 @@ use core\SessionUtils;
 
 class ReservationCtrl {
 
+    private $rezerwacje;
+    private $paginacja;
+    private $filtr;
+    
     public function action_reservationView() {
         App::getSmarty()->assign('page_title', 'FishPass — Rezerwacja');
 
@@ -76,10 +80,10 @@ class ReservationCtrl {
         App::getRouter()->redirectTo('reservationsView');
     }
 
-    public function action_reservationsView() {
-        App::getSmarty()->assign('page_title', 'FishPass — Moje rezerwacje');
+    private function load_data() {
 
         $user = SessionUtils::load("user", true);
+
         if (!$user || !isset($user["id"])) {
             Utils::addErrorMessage("Musisz być zalogowany, aby zobaczyć rezerwacje.");
             App::getRouter()->redirectTo('loginView');
@@ -87,11 +91,11 @@ class ReservationCtrl {
         }
 
          // panel wyszukiwania
-        $status = isset($_GET['status']) && $_GET['status'] != '' ? $_GET['status'] : null;
+        $status = isset($_REQUEST['status']) && $_REQUEST['status'] != '' ? $_REQUEST['status'] : null;
 
         // paginacja
         $naStrone = 10;
-        $stronaAktualna = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
+        $stronaAktualna = isset($_REQUEST['page']) ? max(1, (int)$_REQUEST['page']) : 1;
         $przesuniecie = ($stronaAktualna - 1) * $naStrone;
 
         // budowanie warunków
@@ -105,7 +109,7 @@ class ReservationCtrl {
 
         $liczbaStron = ceil($total / $naStrone);
 
-        $paginacja = [
+        $this->paginacja = [
             'stronaAktualna'  => $stronaAktualna,
             'stronaPoprzednia' => $stronaAktualna - 1,
             'stronaNastepna'  => $stronaAktualna + 1,
@@ -117,7 +121,7 @@ class ReservationCtrl {
         $warunki["ORDER"] = ["rezerwacja.data_rezerwacji" => "DESC"];
         $warunki["LIMIT"] = [$przesuniecie, $naStrone];
     
-        $rezerwacje = App::getDB()->select("rezerwacja", [
+        $this->rezerwacje = App::getDB()->select("rezerwacja", [
             "[>]rodzaj_wkladki" => ["rodzaj_wkladki_id_rodzaju_wkladki" => "id_rodzaju_wkladki"],
             "[>]stanowisko"     => ["stanowisko_id_stanowiska" => "id_stanowiska"]
         ], [
@@ -130,12 +134,7 @@ class ReservationCtrl {
             "stanowisko.kod(stanowisko)"
         ], $warunki);
 
-        $filtr = ['status' => $status];
-
-        App::getSmarty()->assign('filtr', $filtr);
-        App::getSmarty()->assign('paginacja', $paginacja);
-        App::getSmarty()->assign('rezerwacje', $rezerwacje);
-        App::getSmarty()->display('ReservationsView.tpl');
+        $this->filtr = ['status' => $status];
     }
 
     public function action_reservationCancel() {
@@ -164,6 +163,23 @@ class ReservationCtrl {
         Utils::addInfoMessage("Rezerwacja została anulowana.");
         SessionUtils::storeMessages();
         App::getRouter()->redirectTo('reservationsView');
+    }
+
+    public function action_reservationsList() {
+        App::getSmarty()->assign('page_title', 'FishPass — Moje rezerwacje');
+        $this->load_data();
+        App::getSmarty()->assign('rezerwacje', $this->rezerwacje);
+        App::getSmarty()->assign('paginacja', $this->paginacja);
+        App::getSmarty()->assign('filtr', $this->filtr);
+        App::getSmarty()->display('ReservationsViewFullPage.tpl');
+    }
+
+    public function action_reservationsListPart(){
+        $this->load_data();
+        App::getSmarty()->assign('rezerwacje', $this->rezerwacje);
+        App::getSmarty()->assign('paginacja', $this->paginacja);
+        App::getSmarty()->assign('filtr', $this->filtr);
+        App::getSmarty()->display('ReservationsViewTable.tpl');
     }
 
 }
